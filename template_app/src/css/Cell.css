@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.outer {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: inline-table;
+  white-space: normal;
+  overflow-wrap: break-word;
+  border: solid;
+  border-width: 0.1;
+  border-top: 0.5;
+  border-bottom: 0.5;
+  border-color: black;
+  width: 20px;
+  height: 120px;
+}

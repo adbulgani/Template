@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f9fa; /* Light gray background */
+}
+.registration-form-container form div {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px; /* Adjust the spacing between each field */
+}
+
+.registration-form-container label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555555; /* Medium gray text color */
+}
+
+.registration-form-container input {
+  padding: 10px;
+  border: 1px solid #cccccc; /* Light gray border */
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.registration-form-container input:focus {
+  outline: none;
+  border-color: #4a90e2; /* Blue border color on focus */
+}
+
+.registration-form-container .error-message {
+  color: #ff0000; /* Red error text color */
+  margin-top: 5px;
+}
+
+.registration-form-container button {
+  padding: 10px 20px;
+  background-color: #4a90e2; /* Blue button color */
+  color: #ffffff; /* White text color */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.registration-form-container button:hover {
+  background-color: #357ebd; /* Darker blue color on hover */
+}
+
+.registration-form-container .success-message {
+  color: #008000; /* Green success text color */
+  text-align: center;
+  margin-top: 15px;
+}
