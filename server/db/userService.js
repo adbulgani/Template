@@ -21,7 +21,7 @@ async function getUsers() {
     // Connect to the MongoDB database
     await connectToDatabase();
     // Fetch all users from the database
-    const users = await User.find({}, "userId email");
+    const users = await User.find({}, "userId email name designation BA");
     return users;
   } catch (error) {
     console.error("Error fetching users:", error);

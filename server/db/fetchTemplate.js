@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const User = require("../models/User.js");
+const Template = require("../models/Template.js");
 
 async function connectToDatabase() {
   try {
@@ -14,22 +14,19 @@ async function connectToDatabase() {
   }
 }
 
-async function registerUser(userData) {
+async function fetchTheTemplate(templateId) {
   try {
-    // Connect to the MongoDB database
     await connectToDatabase();
-    // Create a new User document using the provided userData
-    /* const data = {
-      email: userData["email"],
-      contact: userData["contact"],
-      password: userData["password"],
-    }; */
-    const newUser = new User(userData);
-    // Save the new user to the database
-    const savedUser = await newUser.save();
-    return savedUser;
+    console.log("in fetch db", templateId);
+    const template = await Template.findById(templateId);
+    console.log("template", template);
+    if (!template) {
+      return res.status(404).json({ error: "Template not found" });
+    }
+    return template;
   } catch (error) {
-    throw error;
+    console.error("Error fetching template:", error);
+    res.status(500).json({ error: "Internal server error" });
   } finally {
     // Close the MongoDB connection after saving the user
     mongoose.disconnect();
@@ -37,4 +34,4 @@ async function registerUser(userData) {
   }
 }
 
-module.exports = { registerUser };
+module.exports = { fetchTheTemplate };

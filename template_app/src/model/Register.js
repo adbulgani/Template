@@ -9,6 +9,10 @@ const RegistrationForm = () => {
     contact: "",
     password: "",
     confirmPassword: "",
+    name: "",
+    designation: "",
+    BA: "",
+    HRMS: "",
   });
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
@@ -103,6 +107,58 @@ const RegistrationForm = () => {
           {errors.confirmPassword && (
             <span className="error-message">{errors.confirmPassword}</span>
           )}
+        </div>
+        <div>
+          <label>Name:</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Designation:</label>
+          <select
+            name="designation"
+            value={formData.designation}
+            onChange={handleChange}
+          >
+            <option value="">Select designation</option>
+            <option value="SDE">SDE</option>
+            <option value="AGM">AGM</option>
+            <option value="DE">DE</option>
+            <option value="JTO">JTO</option>
+            <option value="JE">JE</option>
+          </select>
+        </div>
+        <div>
+          <label>BA:</label>
+          <select name="BA" value={formData.BA} onChange={handleChange}>
+            <option value="">Select BA</option>
+            <option value="ATP">ATP</option>
+            <option value="CDP">CDP</option>
+            <option value="CTR">CTR</option>
+            <option value="EG">EG</option>
+            <option value="GTR">GTR</option>
+            <option value="KNL">KNL</option>
+            <option value="KRI">KRI</option>
+            <option value="NLR">NLR</option>
+            <option value="PKM">PKM</option>
+            <option value="SKM">SKM</option>
+            <option value="VM">VM</option>
+            <option value="VZM">VZM</option>
+            <option value="WG">WG</option>
+          </select>
+        </div>
+        <div>
+          <label>HRMS:</label>
+          <input
+            type="text"
+            name="HRMS"
+            value={formData.HRMS}
+            onChange={handleChange}
+          />
         </div>
         <button type="submit">Register</button>
       </form>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/Register.css";
 
@@ -9,6 +10,7 @@ const LoginForm = () => {
   });
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -19,7 +21,6 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Perform client-side validation
     const validationErrors = {};
     if (!formData.email || !formData.email.includes("@")) {
       validationErrors.email = "Invalid email";
@@ -31,17 +32,26 @@ const LoginForm = () => {
       setErrors(validationErrors);
       return;
     }
-    // Send POST request to server
+    // Client-side Axios request
     axios
-      .post("http://localhost:8080/login", formData)
+      .get("http://localhost:8080/login", {
+        params: {
+          email: formData.email,
+          password: formData.password,
+        },
+      })
       .then((response) => {
-        setSuccessMessage("Registration successful");
+        const userData = response.data;
+        localStorage.setItem("user", JSON.stringify(userData)); // Stringify userData before storing
+        /* setSuccessMessage("Login successful"); */
+        navigate("/home");
       })
       .catch((error) => {
-        console.error("Registration error:", error);
-        // Handle registration error
+        console.error("Login error:", error);
+        setErrors({ general: "Invalid email or password" });
       });
   };
+
   return (
     <div className="registration-form-container">
       <h2>Login Form</h2>
@@ -58,7 +68,6 @@ const LoginForm = () => {
             <span className="error-message">{errors.email}</span>
           )}
         </div>
-
         <div>
           <label>Password:</label>
           <input
@@ -73,6 +82,7 @@ const LoginForm = () => {
         </div>
         <button type="submit">Login</button>
       </form>
+      {errors.general && <p className="error-message">{errors.general}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
     </div>
   );

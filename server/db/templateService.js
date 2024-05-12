@@ -9,10 +9,10 @@ async function storeTemplate(fields) {
       useUnifiedTopology: true,
     });
     console.log("Connected to MongoDB");
-    console.log(fields.length);
+    console.log(fields);
 
     //Create a new document using the Template model
-    const template = new Template({ fields });
+    const template = new Template(fields);
 
     // Save the document to the 'template' collection
     await template.save();

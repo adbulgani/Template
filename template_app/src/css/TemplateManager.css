@@ -1,0 +1,54 @@
+/* TemplateManager.css */
+
+/* Container styles */
+.template-manager-container {
+  font-family: Arial, sans-serif;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4a90e2;
+  color: white;
+  padding: 10px 20px;
+}
+
+.title {
+  font-size: 20px;
+}
+
+/* Burger menu styles */
+.burger-menu {
+  cursor: pointer;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 5px 0;
+}
+
+/* Burger menu content styles */
+.burger-menu-content {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  position: absolute;
+  top: 50px;
+  right: 20px;
+}
+
+/* Main content styles */
+.main-content {
+  margin-top: 20px;
+}
+
+/* Button styles */
+button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}

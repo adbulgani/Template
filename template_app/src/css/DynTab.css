@@ -12,6 +12,16 @@ h2 {
   margin-bottom: 10px;
 }
 
+input[type="text"] {
+  width: 20%;
+  padding: 8px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 button {
   margin-right: 10px;
   padding: 8px 16px;
@@ -136,4 +146,32 @@ td {
 
 .form-overlay button[type="submit"]:hover {
   background-color: #0056b3;
+}
+
+.assignment-container {
+  margin: 10px 0; /* Margin on top and bottom, 0 margin on left and right */
+}
+
+.assignment-container label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.assignment-container select {
+  width: calc(100% - 10px); /* Adjusting for the margin */
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  margin-bottom: 10px; /* Add margin at the bottom for spacing */
+}
+
+.assignment-container select option:checked {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Align buttons horizontally */
+.assignment-container button {
+  margin-right: 5px; /* Add right margin to create space between buttons */
 }

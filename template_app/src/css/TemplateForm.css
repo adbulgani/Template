@@ -1,0 +1,42 @@
+/* Styles for the Template Form */
+.template-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.template-form h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.template-form label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.template-form input[type="text"],
+.template-form input[type="number"],
+.template-form input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.template-form button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.template-form button:hover {
+  background-color: #45a049;
+}

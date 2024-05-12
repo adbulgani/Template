@@ -1,0 +1,42 @@
+.my-templates-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.templates-section {
+  width: 45%;
+  height: 80vh;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.templates-section h2 {
+  margin-top: 0;
+  padding-bottom: 8px; /* Add some space below the heading */
+  border-bottom: 2px solid #ccc; /* Add a border line below the heading */
+  background-color: blue;
+}
+
+.templates-list {
+  list-style: none;
+  padding: 0;
+}
+
+.templates-list li {
+  margin-bottom: 10px;
+}
+
+.templates-list li a {
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+  padding: 8px 12px;
+  display: block;
+  border-radius: 5px;
+}
+
+.templates-list li a:hover {
+  background-color: #e0e0e0;
+  color: #000;
+}

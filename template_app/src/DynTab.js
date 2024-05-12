@@ -1,7 +1,8 @@
 import "./css/DynTab.css";
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import TemplateForm from "./model/UserList";
+import { Link, useNavigate } from "react-router-dom";
 
 const DynamicTable = () => {
   const [fields, setFields] = useState([]);
@@ -13,7 +14,45 @@ const DynamicTable = () => {
   const [aggField, setAggField] = useState(false);
   const [aggFunc, setAggFunc] = useState("");
   const [newRowData, setNewRowData] = useState({});
-  const formOverlayRef = useRef(null);
+  const [userDetails, setUserDetails] = useState(null); // State to store user details
+  const [users, setUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [templateName, setTemplateName] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch list of users from the server
+    axios
+      .get("http://localhost:8080/Users")
+      .then((response) => {
+        // Update the state with the list of users
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  }, []);
+
+  const handleCheckboxChange = (userId) => {
+    // Check if the user is already in the selectedUsers array
+    const index = selectedUsers.indexOf(userId);
+
+    if (index === -1) {
+      // If not found, add the user to the selectedUsers array
+      setSelectedUsers([...selectedUsers, userId]);
+    } else {
+      // If found, remove the user from the selectedUsers array
+      const updatedUsers = [...selectedUsers];
+      updatedUsers.splice(index, 1);
+      setSelectedUsers(updatedUsers);
+    }
+  };
+
+  useEffect(() => {
+    const userDetailsFromStorage = localStorage.getItem("user");
+    // Parse JSON string to object
+    setUserDetails(JSON.parse(userDetailsFromStorage));
+  }, []);
 
   const addField = () => {
     setShowFieldForm(true);
@@ -33,11 +72,18 @@ const DynamicTable = () => {
       alert("Please select field type.");
       return;
     }
-    if (!aggFunc.trim()) {
+    if (aggField && !aggFunc.trim()) {
       alert("Please select Agg Func Type.");
       return;
     }
-    setFields([...fields, { name: newFieldName, type: newFieldType }]);
+    setFields([
+      ...fields,
+      {
+        name: newFieldName,
+        type: newFieldType,
+        func: aggField ? aggFunc : "none",
+      },
+    ]);
     setNewFieldName("");
     setNewFieldType("");
     setShowFieldForm(false);
@@ -64,10 +110,11 @@ const DynamicTable = () => {
 
   const handleFieldTypeChange = (e) => {
     setNewFieldType(e.target.value);
-    if (e.target.value == "number") {
+    if (e.target.value === "number") {
       setAggField(true);
     } else {
       setAggField(false);
+      setAggFunc(""); // Reset aggregation function when type changes
     }
   };
 
@@ -87,24 +134,57 @@ const DynamicTable = () => {
     setShowRowForm(false);
   };
 
+  const handleTemplateNameChange = (e) => {
+    setTemplateName(e.target.value);
+  };
+
   const handleSubmitFields = () => {
     // Make an HTTP POST request to your Express server
+    if (
+      !userDetails ||
+      !fields.length ||
+      !selectedUsers.length ||
+      !templateName.length
+    ) {
+      console.error("Required data is missing.");
+      return;
+    }
+
+    // Create the template model object
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const templateData = {
+      templateName: templateName,
+      fields: fields,
+      created_by: user["_id"],
+      assigned_To: selectedUsers,
+    };
+
+    console.log(templateData);
     axios
-      .post("http://localhost:8080/create", fields)
+      .post("http://localhost:8080/create", templateData)
       .then((response) => {
         console.log("Fields submitted successfully:", response.data);
-        // Handle success, if needed
+        navigate("/get-templates");
       })
       .catch((error) => {
         console.error("Error submitting fields:", error);
         // Handle error, if needed
       });
   };
+
   return (
     <>
       <div className="table-container">
         <div>
           <h2>Create Template</h2>
+          <br />
+          <input
+            type="text"
+            placeholder="Enter Template name"
+            value={templateName}
+            onChange={handleTemplateNameChange}
+          />
           <button onClick={addField}>Add Field</button>
           <button onClick={addRow}>Add Row</button>
         </div>
@@ -134,8 +214,10 @@ const DynamicTable = () => {
                   <option value="sum">Sum</option>
                   <option value="avg">Average</option>
                   <option value="both">Sum&Average</option>
+                  <option value="none">None</option>
                 </select>
               )}
+
               <button type="submit">Add Field</button>
             </form>
           </div>
@@ -190,13 +272,32 @@ const DynamicTable = () => {
           <ul>
             {fields.map((field, index) => (
               <li key={index}>
-                {field.name} - {field.type}
+                {field.name} - {field.type} - {field.func}
               </li>
             ))}
           </ul>
         </div>
       </div>
-      <TemplateForm></TemplateForm>
+      <div className="assignment-container">
+        <label htmlFor="assignTo">Assign To:</label>
+        <div className="user-checkboxes">
+          {/* Render checkboxes for each user */}
+          {users.map((user) => (
+            <div key={user._id}>
+              <input
+                type="checkbox"
+                id={user._id}
+                value={user._id}
+                checked={selectedUsers.includes(user._id)}
+                onChange={() => handleCheckboxChange(user._id)}
+              />
+              <label htmlFor={user._id}>
+                {user.name}-{user.BA}-{user.designation}
+              </label>
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 };
